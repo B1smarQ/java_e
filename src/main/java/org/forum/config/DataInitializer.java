@@ -72,8 +72,8 @@ public class DataInitializer implements CommandLineRunner {
         Post post1 = new Post();
         post1.setTitle("Best Programming Languages in 2024");
         post1.setBody("What are your thoughts on the most in-demand programming languages this year?");
-        post1.setAuthor(user1.getId());
-        post1.setCommunity(community1.getId());
+        post1.setAuthorId(user1.getId());
+        post1.setCommunityId(community1.getId());
         postRepository.save(post1);
 
         logService.saveLog(new Log(null, LogLevels.INFO.getLogLevel(), "Created a post", null));
@@ -81,8 +81,8 @@ public class DataInitializer implements CommandLineRunner {
         Post post2 = new Post();
         post2.setTitle("Favorite Video Games");
         post2.setBody("Share your favorite games and why you love them!");
-        post2.setAuthor(user2.getId());
-        post2.setCommunity(community2.getId());
+        post2.setAuthorId(user2.getId());
+        post2.setCommunityId(community2.getId());
         postRepository.save(post2);
 
         logService.saveLog(new Log(null, LogLevels.INFO.getLogLevel(), "Created a post", null));

@@ -23,6 +23,6 @@ public class Log {
     @Column(name = "metadata", length = 256)
     private String description;
 
-    @Column(name = "times_stamp",nullable = true)
+    @Column(name = "time_stamp",nullable = true)
     private Timestamp timestamp;
 } 

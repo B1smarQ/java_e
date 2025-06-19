@@ -32,4 +32,7 @@ public class Session {
   @Column(name = "expiry_time")
   private Timestamp expiryTime;
 
+  @Column(name = "user_id")
+  private Integer userId;
+
 }

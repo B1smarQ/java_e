@@ -1,7 +1,10 @@
 package org.forum.service;
 
+import org.forum.entity.Log;
+import org.forum.entity.LogLevels;
 import org.forum.entity.User;
 import org.forum.entity.Session;
+import org.forum.repository.LogRepository;
 import org.forum.repository.SessionRepository;
 import org.forum.repository.UserRepository;
 import org.forum.util.PasswordUtil;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +22,7 @@ public class UserService {
 
   private UserRepository userRepository;
   private SessionRepository sessionRepository;
+  private LogRepository logRepository;
 
   public List<User> getUsers() {
     return userRepository.findAll();
@@ -42,7 +47,9 @@ public class UserService {
     }
 
     String token = UUID.randomUUID().toString();
-    sessionRepository.save(new Session(null, token, null, null));
+    User loggedInUser = this.userRepository.getUserByUsername(username);
+    sessionRepository.save(new Session(null, token, null, new Timestamp(System.currentTimeMillis()), loggedInUser.getId()));
+    logRepository.save(new Log(null, LogLevels.INFO.getLogLevel(),"Created a session for user with username: "+username,null));
     return token;
   }
 }
