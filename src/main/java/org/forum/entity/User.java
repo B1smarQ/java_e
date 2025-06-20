@@ -32,6 +32,9 @@ public class User {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    @Column(name = "user_role", nullable = false, length = 10)
+    private String userRole;
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Timestamp(System.currentTimeMillis());

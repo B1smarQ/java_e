@@ -1,10 +1,13 @@
-create table if not exists users(
-id int primary key auto_increment,
-username varchar(50) unique not null,
-user_password varchar(256) not null,
-email varchar(50) not null unique,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
-user_role varchar(10) default "user" 
-  constraint role_check CHECK ( role = "user" or role = "admin" or role = "mod" )
-)
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `user_password` varchar(256) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_role` varchar(10) DEFAULT 'user',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  CONSTRAINT `role_check` CHECK (((`user_role` = _utf8mb4'user') or (`user_role` = _utf8mb4'admin') or (`user_role` = _utf8mb4'mod')))
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

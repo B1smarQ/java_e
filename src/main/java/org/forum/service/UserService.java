@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +27,19 @@ public class UserService {
 
   public List<User> getUsers() {
     return userRepository.findAll();
+  }
+
+  public User getUserByUsername(String username) {
+    return userRepository.getUserByUsername(username);
+  
+  }
+
+  public User getUserInfo(String token){
+    Session currentSession = this.sessionRepository.findByToken(token);
+    User currentUser = this.userRepository.findById(currentSession.getUserId()).orElse(null);
+
+    return currentUser;
+
   }
 
   public User saveUser(User user) {
@@ -48,8 +62,14 @@ public class UserService {
 
     String token = UUID.randomUUID().toString();
     User loggedInUser = this.userRepository.getUserByUsername(username);
-    sessionRepository.save(new Session(null, token, null, new Timestamp(System.currentTimeMillis()), loggedInUser.getId()));
-    logRepository.save(new Log(null, LogLevels.INFO.getLogLevel(),"Created a session for user with username: "+username,null));
+    sessionRepository
+        .save(new Session(null, token, new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()+ TimeUnit.HOURS.toMillis(1)),  loggedInUser.getId()));
+    logRepository.save(
+        new Log(null, LogLevels.INFO.getLogLevel(), "Created a session for user with username: " + username, null));
     return token;
+  }
+
+  public List<User> getAllUsers(){
+    return this.userRepository.findAll();
   }
 }
