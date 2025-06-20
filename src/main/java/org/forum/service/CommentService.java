@@ -78,4 +78,8 @@ public class CommentService {
         dto.setAuthorUsername(comment.getAuthor() != null ? comment.getAuthor().getUsername() : null);
         return dto;
     }
+
+    public List<Comment> getCommentsByAuthorId(Integer authorId) {
+        return commentRepository.findByAuthorId(authorId);
+    }
 } 

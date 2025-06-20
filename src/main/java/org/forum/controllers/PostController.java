@@ -260,4 +260,17 @@ public class PostController {
         return null;
     }
   }
+
+  @GetMapping("/comments/user/{userId}")
+  public List<CommentDTO> getCommentsByUser(@PathVariable("userId") Integer userId, HttpServletResponse response) {
+    try {
+        List<CommentDTO> comments = commentService.getCommentsByAuthorId(userId)
+            .stream().map(commentService::toDTO).toList();
+        response.setStatus(200);
+        return comments;
+    } catch (Exception e) {
+        response.setStatus(500);
+        return null;
+    }
+  }
 }
